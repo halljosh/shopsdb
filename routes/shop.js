@@ -7,8 +7,8 @@ const router = express.Router();
 const adminData = require('./admin');
 
 router.get('/', (req, res, next) => { 
-    console.log(adminData.products);
-    res.sendFile(path.join(__dirname, '..', 'views', 'shop.html')); //path.join detects OS
+    const products = adminData.products;
+    res.render('shop', {products: products, docTitle: 'Shop', path: '/'}); //looks for .pug files & passes products
 });
 
 module.exports = router;
