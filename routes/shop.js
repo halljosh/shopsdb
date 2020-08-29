@@ -2,13 +2,10 @@ const path = require('path');
 
 const express = require('express');
 
+const productsController = require('../controllers/products'); //allows access to products controller functions
+
 const router = express.Router();
 
-const adminData = require('./admin');
-
-router.get('/', (req, res, next) => { 
-    const products = adminData.products;
-    res.render('shop', {products: products, docTitle: 'Shop', path: '/'}); //looks for .pug files & passes products
-});
+router.get('/', productsController.getProducts);
 
 module.exports = router;
