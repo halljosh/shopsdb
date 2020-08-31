@@ -1,0 +1,18 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        h1 edit product info:
+        form(action="/admin/edit-product" method="POST")
+            label(for="title") album title
+            input(type="text" name="title" value=foundProduct.title)
+            label(for="artist") artist
+            input(type="text" name="artist" value=foundProduct.artist)
+            label(for="imageURL") cover image URL
+            input(type="text" name="imageURL" value=foundProduct.imageURL)
+            label(for="description") description
+            textarea(name="description") #{foundProduct.description}
+            label(for="price") price
+            input(type="number" name="price" step="0.01" value=foundProduct.price)
+            input(type="hidden" name="id" value=foundProduct.id)
+            button(type="submit") save changes

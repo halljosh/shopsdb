@@ -1,0 +1,23 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        if products.length > 0
+            .product-grid
+                each product in products
+                    .product-card
+                        .card-header
+                            h1.product-title #{product.title} by #{product.artist}
+                        .card-content
+                            img.product-image(src = product.imageURL alt = product.title)
+                            h3.product-price $#{product.price}
+                            p.product-description #{product.description}
+                        .card-action
+                            a(href="/admin/edit-product/" + product.id)
+                                button edit
+                            form(action="/admin/delete-product", method="POST") 
+                                input(type="hidden" value=product.id name="id")
+                                button(type="submit") delete
+        else
+            h1 no albums available :(  
+                a(href="/admin/add-product") add one?

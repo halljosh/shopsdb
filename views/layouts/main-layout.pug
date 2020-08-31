@@ -10,7 +10,13 @@ html(lang="en")
             nav.navbar
                 ul 
                     li
-                        a(href="/", class=(path==='/' ? 'active' : '')) shop
+                        a(href="/home", class=(path==='/home' ? 'active' : '')) home
+                    li
+                        a(href="/", class =(path==='/' ? 'active' : '')) shop
+                    li
+                        a(href="/cart", class =(path==='/cart' ? 'active' : '')) cart
                     li
                         a(href="/admin/add-product", class=(path==='/admin/add-products' ? 'active' : '')) add product
+                    li
+                        a(href="/admin/admin-product-view", class=(path==='/admin/admin-product-view' ? 'active' : '')) product management
         block content

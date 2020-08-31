@@ -1,0 +1,20 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        if products.length > 0
+            .product-grid
+                each product in products
+                    .product-card
+                        .card-header
+                            h1.product-title #{product.title} by #{product.artist}
+                        .card-content
+                            img.product-image(src = product.imageURL alt = product.title)
+                            h3.product-price $#{product.price}
+                            p.product-description #{product.description}
+                        .card-action
+                            form(action="/cart" method="POST")
+                                button(type="submit") add to cart
+                                input(type="hidden" name="id" value = product.id)
+        else
+            h1 no albums available :( 

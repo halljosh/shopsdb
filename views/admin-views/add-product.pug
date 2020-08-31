@@ -1,0 +1,16 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        form(action="/admin/add-product", method="POST")
+            label(for="title") album title
+            input(type="text", name="title")#title
+            label(for="artist") artist
+            input(type="text", name="artist")#artist
+            label(for="imageURL") cover image URL
+            input(type="text", name="imageURL")#imageURL
+            label(for="description") description
+            textarea(name="description")#description
+            label(for="price") price
+            input(type="number", name="price" step="0.01")#price
+            button(type="submit") add
