@@ -22,3 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 node_modules/
+/shopdb/node_modules
+./shopdb/node_modules
