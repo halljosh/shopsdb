@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: false})); //parses text, forms, json bo
 app.use(express.static(path.join(__dirname, 'public'))); //this is where file requests will be forwarded
 
 app.use('/admin', adminRoutes); //prepends /admin to the route paths in this file
-app.use(shopRoutes);
+app.use(shopRoutes); 
 
 app.use(errorController.get404);
 
