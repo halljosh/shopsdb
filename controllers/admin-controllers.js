@@ -11,8 +11,12 @@ exports.postProduct = (req, res, next) => { //POSTs the product to our product a
     const description = req.body.description;
     const price = req.body.price;
     const newProduct = new Product(null, title, artist, imageURL, description, price); //creates a new product based on our model
-    newProduct.save(); //saves current product to our array
-    res.redirect('/'); //sends back home
+    newProduct
+        .save()
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => console.log(err)); //saves current product to our array
 };
 
 exports.getAdminProductList = (req, res, next) => { //GETs an admin page with all our products

@@ -11,6 +11,8 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/errors'); 
 
+const db = require('./data/database'); // reaches out to our mysql db
+
 app.use(bodyParser.urlencoded({extended: false})); //parses text, forms, json body, etc.
 app.use(express.static(path.join(__dirname, 'public'))); //this is where file requests will be forwarded
 

@@ -29,19 +29,33 @@ module.exports = class Cart {
         });
     }
 
-    static deleteProduct(id, price) {
+    static deleteCartItem(id, price) {
         fs.readFile(p, (err, fileContent) => {
             if (err) {
                 return;
             }
             const updatedCart = {...JSON.parse(fileContent)};
             const product = updatedCart.products.find(p => p.id ===id);
+            if (!product) {
+                return;
+            }
             const qty = product.qty;
             updatedCart.products = updatedCart.products.filter(p => p.id !== id);
-            cart.totalPrice = cart.totalPrice - price * qty;
+            updatedCart.totalPrice = updatedCart.totalPrice - price * qty;
             fs.writeFile(p, JSON.stringify(updatedCart), err => {
                 console.log(err);
             });
+        });
+    }
+
+    static getCartContents(cb) {
+        fs.readFile(p, (err, fileContent) => {
+            const cart = JSON.parse(fileContent);
+            if (err) {
+                cb(null);
+            } else {
+                cb(cart);
+            }
         });
     }
 };
