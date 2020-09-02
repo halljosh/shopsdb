@@ -2,12 +2,14 @@ const Product = require('../models/product-model');
 const Cart = require('../models/cart-model');
 
 exports.getProducts = (req, res, next) => { //GETs a page with all our products
-    Product.fetchAll()
-        .then(([rows, fieldData]) => {
-            res.render('customer-views/product-list', {products: rows, docTitle: 'Shop', path: '/'}); //looks for .pug files & passes our products array
-        })
-        .catch(err => console.log(err));
-};
+    Product.findAll()
+   .then(products => {
+    res.render('customer-views/product-list', {products: products, docTitle: 'Shop', path: '/'}); //looks for .pug files & passes our products array
+   })
+   .catch(err => {
+       console.log(err);
+   });
+}
 
 exports.getHome = (req, res, next) => { //GETs home page
     Product.fetchAll()

@@ -1,8 +1,7 @@
-const mysql = require('mysql2');
+const Sequelize = require('sequelize');
 const dotenv = require('dotenv').config();
 
-//a pool of reusable connections 
-const pool = mysql.createPool({host: 'localhost', user: 'root', database: process.env.DB_NAME, password: process.env.DB_PASS }) //database refers to our schema name
+const sequelize = new Sequelize(process.env.DB_NAME, 'root', process.env.DB_PASS, {dialect: 'mysql', host: 'localhost'});
 
-module.exports = pool.promise();
+module.exports = sequelize;
 
