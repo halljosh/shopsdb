@@ -1,5 +1,4 @@
 const Product = require('../models/product-model');
-const Cart = require('../models/cart-model');
 
 exports.getProducts = (req, res, next) => { //GETs a page with all our products
     Product.findAll()
@@ -20,38 +19,106 @@ exports.getHome = (req, res, next) => { //GETs home page
 };
 
 exports.getCart = (req, res, next) => { //GETs cart page
-    Cart.getCartContents(cart => {
-        Product.fetchAll(products => {
-            const finalCart = [];
-            for (product of products) {
-                const cartData = cart.products.find(p => p.id === product.id);
-                if (cartData) {
-                    finalCart.push({product: product, qty: cartData.qty});
-                }
-            }
-            res.render('customer-views/cart', {docTitle: 'Cart', path: '/cart', products: finalCart});
-        });
-    });
+    req.user
+        .getCart()
+        .then(cart => {
+            return cart
+                .getProducts()
+                .then(products => {
+                    res.render('customer-views/cart', {docTitle: 'Cart', path: '/cart', products: products});
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => { //POSTs selected product to cart
     const id = req.body.id;
-    Product.searchId(id, product => {
-        Cart.addProduct(id, product.price);
-    });
-    res.redirect('/cart');
+    let newQty = 1;
+    let fetchedCart;
+    req.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart;
+            return cart.getProducts({where: {id: id}})
+        })
+        .then(products => {
+            let product;
+            if (products.length > 0) {
+                product = products[0];
+            }
+            if (product) {
+               const oldQuantity = product.cartItem.quantity;
+               newQty = oldQuantity + 1;
+               return product;
+            }
+            return Product.findByPk(id);
+        })
+        .then(product => {
+            return fetchedCart.addProduct(product, { through: { quantity: newQty }});
+        })
+        .then(() => {
+            res.redirect('/cart');
+        })
+        .catch(err => console.log(err));
 };
 
 exports.postCartDeleteProduct = (req, res, next) => {
     const id = req.body.id;
-    Product.searchId(id, price => {
-        Cart.deleteCartItem(id, price);
-        res.redirect('/cart');
-    });
+    req.user
+        .getCart()
+        .then(cart => {
+            return cart.getProducts({ where: {id: id}});
+        })
+        .then(products => {
+            const product = products[0];
+            return product.cartItem.destroy();
+        })
+        .then(result => {
+            res.redirect('/cart');
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
 
-exports.getCheckout = (req, res, next) => { //GETs checkout page
-    res.render('customer-views/checkout', {docTitle: 'Checkout', path: '/checkout' })
-}; 
+exports.postOrder = (req, res, next) => {
+    let fetchedCart;
+    req.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart;
+            return cart.getProducts();
+        })
+        .then(products => {
+            return req.user
+                .createOrder()
+                .then(order => {
+                    return order.addProducts(
+                        products.map(product => {
+                        product.orderItem = { quantity: product.cartItem.quantity };
+                        return product;
+                        })
+                    );
+                })
+                .catch(err => console.log(err));
+        })
+        .then(result => {
+            return fetchedCart.setProducts(null);
+        })
+        .then(result => {
+            res.redirect('/checkout');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
 
-//post checkout
+exports.getCheckout = (req, res, next) => { //GETs unique orders page
+    req.user
+        .getOrders({include: ['products']}) //allows access to products key in checkout.pug
+        .then(orders=> {
+            res.render('customer-views/checkout', {orders: orders, docTitle: 'orders', path: '/orders' });
+        })
+        .catch(err => console.log(err));
+};

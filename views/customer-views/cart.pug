@@ -7,13 +7,15 @@ block content
             .cart-list
                 ul
                     each product in products
-                        - var itemprice = product.product.price * product.qty;
+                        - var itemprice = product.price * product.cartItem.quantity;
                         .cart-item
-                            h4 #{product.product.title} x#{product.qty}
-                            img(src = product.product.imageURL alt = product.product.title)
+                            h4 #{product.title} x#{product.cartItem.quantity}
+                            img(src = product.imageURL alt = product.title)
                             p price: #{itemprice}
                             form(action="/cart-delete-item" method="POST")
-                                input(type="hidden" value=product.product.id name="id")
+                                input(type="hidden" value=product.id name="id")
                                 button(type="submit") delete item
+                form(action="/checkout" method="POST")
+                    button(type="submit") checkout
         else
             h1 your cart is empty!

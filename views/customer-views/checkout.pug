@@ -1,0 +1,16 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        if orders.length > 0
+            h1 here are your orders
+                ul
+                    each order in orders
+                        .cart-item #{order.id}
+                              ul
+                                each product in order.products
+                                    h4 #{product.title}
+                                    img(src = product.imageURL alt = product.title)
+        else    
+            h1 sorry, but you don't have any orders! 
+                a(href="/") add some items?

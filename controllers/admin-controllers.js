@@ -10,19 +10,21 @@ exports.postProduct = (req, res, next) => { //POSTs the product to our product a
     const imageURL = req.body.imageURL;
     const description = req.body.description;
     const price = req.body.price;
-    Product.create({
-        title: title,
-        artist: artist,
-        imageURL: imageURL, 
-        price: price,
-        description: description
-    }).then(result => {
-        res.redirect('/admin/admin-product-view');
-        console.log("product succesfully created!");
-    })
-    .catch(err => {
-        console.log(err);
-    });
+    req.user
+        .createProduct({
+            title: title,
+            artist: artist,
+            imageURL: imageURL, 
+            price: price,
+            description: description,
+        })
+        .then(result => {
+            res.redirect('/admin/admin-product-view');
+            console.log("product succesfully created!");
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
 
 exports.getAdminProductList = (req, res, next) => { //GETs an admin page with all our products
@@ -37,8 +39,12 @@ exports.getAdminProductList = (req, res, next) => { //GETs an admin page with al
 
 exports.getEditProductPage = (req, res, next) => { //GETs an edit page with a specific product ID    
     const id = req.params.id;
-    Product.findByPk(id)
-    .then(foundProduct => {
+    req.user.getProducts({where: {id: id}})
+    .then(products => {
+        const foundProduct = products[0];
+        if (!foundProduct) {
+            return res.redirect('/admin/admin-product-view');
+        }
         res.render('admin-views/edit-product', {foundProduct: foundProduct, docTitle: 'edit product', path: '/admin/edit-product/' + id});
     });
 };
