@@ -1,7 +1,8 @@
 const Product = require('../models/product-model');
+const User = require('../models/user-model');
 
 exports.getProducts = (req, res, next) => { //GETs a page with all our products
-    Product.findAll()
+    Product.fetchAll()
    .then(products => {
     res.render('customer-views/product-list', {products: products, docTitle: 'Shop', path: '/'}); //looks for .pug files & passes our products array
    })
@@ -20,21 +21,27 @@ exports.getHome = (req, res, next) => { //GETs home page
 
 exports.getCart = (req, res, next) => { //GETs cart page
     req.user
-        .getCart()
-        .then(cart => {
-            return cart
-                .getProducts()
-                .then(products => {
-                    res.render('customer-views/cart', {docTitle: 'Cart', path: '/cart', products: products});
-                })
-                .catch(err => console.log(err));
-        })
+        .getAllCartItems()
+        .then(products => {
+                res.render('customer-views/cart', {docTitle: 'Cart', path: '/cart', products: products});
+            })
         .catch(err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => { //POSTs selected product to cart
-    const id = req.body.id;
-    let newQty = 1;
+    const id = req.body.id; 
+    Product.findById(id)
+        .then(product => {
+            return req.user.addToCart(product);
+        })
+        .then(result => {
+            res.redirect('/cart');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+    /*
     let fetchedCart;
     req.user
         .getCart()
@@ -121,4 +128,5 @@ exports.getCheckout = (req, res, next) => { //GETs unique orders page
             res.render('customer-views/checkout', {orders: orders, docTitle: 'orders', path: '/orders' });
         })
         .catch(err => console.log(err));
-};
+}; 
+  /*/

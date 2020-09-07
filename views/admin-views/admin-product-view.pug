@@ -13,10 +13,10 @@ block content
                             h3.product-price $#{product.price}
                             p.product-description #{product.description}
                         .card-action
-                            a(href="/admin/edit-product/" + product.id)
+                            a(href="/admin/edit-product/" + product._id)
                                 button edit
                             form(action="/admin/delete-product", method="POST") 
-                                input(type="hidden" value=product.id name="id")
+                                input(type="hidden" value=product._id name="id")
                                 button(type="submit") delete
         else
             h1 no albums available :(  

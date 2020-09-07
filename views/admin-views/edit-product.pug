@@ -14,5 +14,5 @@ block content
             textarea(name="description") #{foundProduct.description}
             label(for="price") price
             input(type="number" name="price" step="0.01" value=foundProduct.price)
-            input(type="hidden" name="id" value=foundProduct.id)
+            input(type="hidden" name="id" value=foundProduct._id)
             button(type="submit") save changes

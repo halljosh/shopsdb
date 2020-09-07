@@ -27,3 +27,7 @@ node_modules/
 ./shopdb/node_modules
 /controllers/defunct-shop-controllers.js
 /models/defunct-product-model.js
+oldapp.js
+/data/olddatabase.js
+/models/old-sequelize-product-model.js
+/models/old-sequelize-user-model.js
