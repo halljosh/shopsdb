@@ -1,6 +1,38 @@
-const mongodb = require('mongodb');
-const getDb = require('../data/database').getDb;
+const mongoose = require('mongoose');
 
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    artist: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    imageURL: {
+        type: String,
+        required: true
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User', // establishes a relation
+        required: true
+    }
+});
+
+module.exports = mongoose.model('Product', productSchema);
+
+/*
 class Product {
     constructor(title, artist, price, description, imageURL, id, userId) {
         this.title = title;
@@ -69,3 +101,4 @@ class Product {
 };
 
 module.exports = Product;
+*/

@@ -6,11 +6,11 @@ block content
             h1 here are your orders
                 ul
                     each order in orders
-                        .cart-item #{order.id}
+                        .cart-item #{order._id}
                               ul
                                 each product in order.products
-                                    h4 #{product.title}
-                                    img(src = product.imageURL alt = product.title)
+                                    h4 #{product.product.title} x #{product.quantity}
+                                    img(src = product.product.imageURL alt = product.product.title)
         else    
             h1 sorry, but you don't have any orders! 
                 a(href="/") add some items?

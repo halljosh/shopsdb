@@ -1,7 +1,8 @@
 const path = require('path');
-
 const express = require('express');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -11,16 +12,15 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 const errorController = require('./controllers/errors'); 
-const mongoConnect = require('./data/database').mongoConnect;
 const User = require('./models/user-model');
 
 app.use(bodyParser.urlencoded({extended: false})); //parses text, forms, json body, etc.
 app.use(express.static(path.join(__dirname, 'public'))); //this is where file requests will be forwarded
 
 app.use((req, res, next) => {
-    User.findById("5f568455a28296eda3468190")
+    User.findById("5f57cc4d28e4502ee8ced56c")
         .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id);
+            req.user = user;
             next();
         })
         .catch(err => console.log(err));
@@ -31,7 +31,29 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-    app.listen(3000);
-});
+mongoose
+    .connect(process.env.MONGODB_URI, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+    })
+    .then(result => {
+        User.findOne().then(user => {
+            if (!user) {
+                const user = new User({
+                    name: 'Toast',
+                    email: 'toast@corgis.com',
+                    cart: {
+                        items: []
+                    }
+                });
+                user.save();
+            }
+        });
+        app.listen(3000);
+        console.log('succesfully connected to mongodb!')
+    })
+    .catch(err => {
+        console.log(err);
+    });  
+
 
