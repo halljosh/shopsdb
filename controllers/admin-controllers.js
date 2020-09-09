@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 exports.getAddProductPage = (req, res, next) => { //GETs the add product page
-    res.render('admin-views/add-product', {products: Product, docTitle: 'Add Product', path:'/admin/add-product'}); //here's where we're using our product model
+    res.render('admin-views/add-product', {products: Product, docTitle: 'Add Product', path:'/admin/add-product', isLoggedIn: req.session.isLoggedIn}); //here's where we're using our product model
 };
 
 exports.postProduct = (req, res, next) => { //POSTs the product to our product array with key of title
@@ -35,7 +35,7 @@ exports.getAdminProductList = (req, res, next) => { //GETs an admin page with al
    Product
         .find()
         .then(products => {
-            res.render('admin-views/admin-product-view', {products: products, docTitle: 'product management', path: '/admin/admin-product-view'}); //looks for .pug files & passes our products array
+            res.render('admin-views/admin-product-view', {products: products, docTitle: 'product management', path: '/admin/admin-product-view', isLoggedIn: req.session.isLoggedIn}); //looks for .pug files & passes our products array
         })
         .catch(err => {
             console.log(err);
@@ -49,7 +49,7 @@ exports.getEditProductPage = (req, res, next) => { //GETs an edit page with a sp
         if (!foundProduct) {
             return res.redirect('/admin/admin-product-view');
         }
-        res.render('admin-views/edit-product', {foundProduct: foundProduct, docTitle: 'edit product', path: '/admin/edit-product/' + id});
+        res.render('admin-views/edit-product', {foundProduct: foundProduct, docTitle: 'edit product', path: '/admin/edit-product/', isLoggedIn: req.session.isLoggedIn});
     });
 };
 
