@@ -2,11 +2,13 @@ extends ../layouts/main-layout.pug
 
 block content
     main
-        form(action="/login", method="POST")
+        form(action="/signup", method="POST")
             label(for="username") username
             input(type="text", name="username")#username
             label(for="password") password
             input(type="password", name="password")#password
+            label(for="password") confirm password
+            input(type="password", name="confirmedpassword")#password
             input(type = "hidden" name = "_csrf" value = csrfToken)
-            button(type="submit") login
+            button(type="submit") signup
             p #{errorMessage}

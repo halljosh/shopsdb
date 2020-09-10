@@ -24,8 +24,12 @@ html(lang="en")
                         li
                             form(action = "/logout" method="POST")
                                 button(type = "submit") logout
+                                input(type = "hidden" name = "_csrf" value = csrfToken)
                     else
                         li
                             form(action = "/login" method="GET")
                                 button(href="/login" type="submit") login
+                        li
+                            form(action = "/signup" method="GET")
+                                button(href="/signup" type="submit") signup
         block content

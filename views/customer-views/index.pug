@@ -16,5 +16,6 @@ block content
                             form(action="/cart" method="POST")
                                 button(type="submit") add to cart
                                 input(type="hidden" name="id" value = product.id)
+                                input(type = "hidden" name = "_csrf" value = csrfToken)
         else
             h1 no albums available :( 

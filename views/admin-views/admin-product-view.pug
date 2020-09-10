@@ -17,6 +17,7 @@ block content
                                 button edit
                             form(action="/admin/delete-product", method="POST") 
                                 input(type="hidden" value=product._id name="id")
+                                input(type = "hidden" name = "_csrf" value = csrfToken)
                                 button(type="submit") delete
         else
             h1 no albums available :(  

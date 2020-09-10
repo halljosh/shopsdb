@@ -15,4 +15,5 @@ block content
             label(for="price") price
             input(type="number" name="price" step="0.01" value=foundProduct.price)
             input(type="hidden" name="id" value=foundProduct._id)
+            input(type = "hidden" name = "_csrf" value = csrfToken)
             button(type="submit") save changes

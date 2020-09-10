@@ -14,8 +14,10 @@ block content
                             p price: #{itemprice}
                             form(action="/cart-delete-item" method="POST")
                                 input(type="hidden" value=product.productId._id name="id")
+                                input(type = "hidden" name = "_csrf" value = csrfToken)
                                 button(type="submit") delete item 
                 form(action="/checkout" method="POST")
+                    input(type = "hidden" name = "_csrf" value = csrfToken)
                     button(type="submit") checkout
         else
             h1 your cart is empty!

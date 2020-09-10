@@ -44,14 +44,16 @@ exports.getAdminProductList = (req, res, next) => { //GETs an admin page with al
 
 exports.getEditProductPage = (req, res, next) => { //GETs an edit page with a specific product ID    
     const id = req.params.id;
-    Product.findById(id)
-    .then(foundProduct => {
-        if (!foundProduct) {
-            return res.redirect('/admin/admin-product-view');
-        }
+    Product
+        .findById(id)
+        .then(foundProduct => {
+            if (!foundProduct) {
+                return res.redirect('/admin/admin-product-view');
+            }
         res.render('admin-views/edit-product', {foundProduct: foundProduct, docTitle: 'edit product', path: '/admin/edit-product/', isLoggedIn: req.session.isLoggedIn});
-    });
-};
+        })
+        .catch(err => console.log(err)); 
+    };
 
 exports.postEditedProduct = (req, res, next) => {
     const id = req.body.id;

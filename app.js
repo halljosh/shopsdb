@@ -5,12 +5,16 @@ const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf')
+const flash = require('connect-flash');
 
 const app = express();
 const store = new MongoDBStore({
     uri: process.env.MONGODB_URI,
     collection: 'sessions'
 });
+
+const csrfProtect = csrf();
 
 app.set('view engine', 'pug');
 
@@ -25,6 +29,9 @@ app.use(bodyParser.urlencoded({extended: false})); //parses text, forms, json bo
 app.use(express.static(path.join(__dirname, 'public'))); //this is where file requests will be forwarded
 app.use(session({secret: 'westrock elephant', resave: false, saveUninitialized: false, store: store}))
 
+app.use(csrfProtect);
+app.use(flash());
+
 app.use((req, res, next) => {
     if(!req.session.user) {
         return next();
@@ -35,6 +42,11 @@ app.use((req, res, next) => {
             next();
         })
         .catch(err => console.log(err));  
+});
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
 });
 
 app.use('/admin', adminRoutes); //prepends /admin to the route paths in this file
@@ -49,20 +61,8 @@ mongoose
         useNewUrlParser: true
     })
     .then(result => {
-        User.findOne().then(user => {
-            if (!user) {
-                const user = new User({
-                    name: 'Toast',
-                    email: 'toast@corgis.com',
-                    cart: {
-                        items: []
-                    }
-                });
-                user.save();
-            }
-        });
         app.listen(3000);
-        console.log('succesfully connected to mongodb!')
+        console.log('successfully connected to mongodb!')
     })
     .catch(err => {
         console.log(err);
