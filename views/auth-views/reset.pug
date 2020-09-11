@@ -1,0 +1,10 @@
+extends ../layouts/main-layout.pug
+
+block content
+    main
+        form(action="/reset", method="POST")
+            label(for="username") enter your username
+            input(type="text", name="username")#username
+            input(type = "hidden" name = "_csrf" value = csrfToken)
+            button(type="submit") reset
+            p #{errorMessage}
