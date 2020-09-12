@@ -1,6 +1,7 @@
 const User = require('../models/user-model');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { validationResult } = require('express-validator/check');
 
 exports.getLogin = (req, res, next) => { 
     let errorMessage = req.flash('loginerror');
@@ -64,6 +65,15 @@ exports.getSignup = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
+    const confirmedPassword = req.body.confirmedPassword;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth-views/signup', {
+            path: '/signup',
+            docTitle: 'signup',
+            errorMessage: errors.array()[3].msg
+        });
+    }
     User
         .findOne({username: username})
         .then(userRecord => {
@@ -108,8 +118,8 @@ exports.getReset = (req, res, next) => {
 exports.postReset = (req, res, next) => {
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
-            console.log(err);
-            return res.redirect('/reset');
+          console.log(err);
+          return res.redirect('/reset');
         }
         const token = buffer.toString('hex');
         User
@@ -137,8 +147,33 @@ exports.getNewPassword = (req, res, next) => {
             res.render('auth-views/new-password', {
                 path: '/new-password',
                 docTitle: 'reset password',
+                passToken: token,
                 id: user._id.toString()
             });
         })
         .catch(err => console.log(err));
 }; 
+
+exports.postNewPassword = (req, res, next) => {
+    const newPass = req.body.password;
+    const id = req.body.id;
+    const passToken = req.body.passToken;
+    let resetUser;
+
+    User
+        .findOne({resetToken: passToken, _id: id})
+        .then(user => {
+            resetUser = user;
+            return bcrypt.hash(newPass, 12);
+        })
+        .then(hashedPass => {
+            resetUser.password = hashedPass;
+            resetUser.resetToken = null;
+            return resetUser.save()
+        })
+        .then(result => {
+            console.log('user password successfully updated!');
+            res.redirect('/login');
+        })
+        .catch(err => console.log(err));
+};

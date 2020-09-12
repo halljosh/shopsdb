@@ -25,13 +25,4 @@ yarn-error.log*
 node_modules/
 /shopdb/node_modules
 ./shopdb/node_modules
-/controllers/defunct-shop-controllers.js
-/models/defunct-product-model.js
-oldapp.js
-/data/olddatabase.js
-/models/old-sequelize-product-model.js
-/models/old-sequelize-user-model.js
-/models/old-sequelize-order-model.js
-/models/old-order-item-model.js
-/models/old-sequelize-cart-model.js
-/models/old-sequelize-cart-item-model.js
+/defunct
