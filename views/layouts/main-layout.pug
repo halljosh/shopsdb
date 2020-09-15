@@ -4,32 +4,35 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title #{docTitle} 
-        link(rel = "stylesheet", href="../public/shopstyle.css")
+        link(rel = "stylesheet", href="shopstyle.css")
+        link(rel="icon" href="https://lh3.googleusercontent.com/proxy/XZ2pWuFjP-kJeX9wm5Igyri7UqSeIkRbBhliLWlXYk2Oaqu39F_J-GOxCPNIra1gjREX-_1Vwv8FwR-YYNi1y48qy7NpvTgjOCEpUU4sTX2IanUbW-Bcpdupsx09e_CMNZ_7-PDE-2fTBvEt-31x6s7JpJ4KXvSIew" type="image/x-icon")
+        link(href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Monda&display=swap" rel="stylesheet")
     body
         header
-            nav.navbar
+            nav
                 ul 
-                    li
-                        a(href="/home", class=(path==='/home' ? 'active' : '')) home
-                    li
-                        a(href="/", class =(path==='/' ? 'active' : '')) shop
-                    li
-                        a(href="/cart", class =(path==='/cart' ? 'active' : '')) cart
-                    
+                    li.a
+                        a(href="/", class=(path==='/' ? 'active' : '')) home
+                    li.a
+                        a(href="/shop", class =(path==='/shop' ? 'active' : '')) shop
+
                     if isLoggedIn
-                        li
+                        li.a
+                            a(href="/cart", class =(path==='/cart' ? 'active' : '')) cart
+
+                        li.a
                             a(href="/admin/add-product", class=(path==='/admin/add-products' ? 'active' : '')) add product
-                        li
+                        li.a
                             a(href="/admin/admin-product-view", class=(path==='/admin/admin-product-view' ? 'active' : '')) product management
-                        li
+                        li.b
                             form(action = "/logout" method="POST")
                                 button(type = "submit") logout
                                 input(type = "hidden" name = "_csrf" value = csrfToken)
                     else
-                        li
+                        li.b
                             form(action = "/login" method="GET")
                                 button(href="/login" type="submit") login
-                        li
+                        li.b
                             form(action = "/signup" method="GET")
                                 button(href="/signup" type="submit") signup
         block content

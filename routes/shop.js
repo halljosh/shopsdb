@@ -7,9 +7,9 @@ const isAuth = require('../controllers/is-auth-middleware');
 
 const router = express.Router();
 
-router.get('/', shopControllers.getProducts);
+router.get('/shop', shopControllers.getProducts);
 
-router.get('/home', shopControllers.getHome);
+router.get('/', shopControllers.getHome);
 
 router.get('/cart', isAuth, shopControllers.getCart);
 

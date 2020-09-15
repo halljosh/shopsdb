@@ -1,6 +1,9 @@
 extends ../layouts/main-layout.pug
 
 block content
+    head
+        style
+            include ../../public/shopstyle.css
     main
         form(action="/admin/add-product", method="POST")
             label(for="title") album title
@@ -14,4 +17,4 @@ block content
             label(for="price") price
             input(type="number", name="price" step="0.01")#price
             input(type = "hidden" name = "_csrf" value = csrfToken)
-            button(type="submit") add
+            button.submit(type="submit") add

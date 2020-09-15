@@ -1,6 +1,9 @@
 extends ../layouts/main-layout.pug
 
 block content
+    head
+        style
+            include ../../public/shopstyle.css
     main
         if products.length > 0
             .product-grid
@@ -18,7 +21,7 @@ block content
                             form(action="/admin/delete-product", method="POST") 
                                 input(type="hidden" value=product._id name="id")
                                 input(type = "hidden" name = "_csrf" value = csrfToken)
-                                button(type="submit") delete
+                                button.submit(type="submit") delete
         else
             h1 no albums available :(  
                 a(href="/admin/add-product") add one?

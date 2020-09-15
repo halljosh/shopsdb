@@ -2,20 +2,17 @@ extends ../layouts/main-layout.pug
 
 block content
     main
-        if products.length > 0
-            .product-grid
-                each product in products
-                    .product-card
-                        .card-header
-                            h1.product-title #{product.title} by #{product.artist}
-                        .card-content
-                            img.product-image(src = product.imageURL alt = product.title)
-                            h3.product-price $#{product.price}
-                            p.product-description #{product.description}
-                        .card-action
-                            form(action="/cart" method="POST")
-                                button(type="submit") add to cart
-                                input(type="hidden" name="id" value = product.id)
-                                input(type = "hidden" name = "_csrf" value = csrfToken)
-        else
-            h1 no albums available :( 
+        a.hometitle(href="/shop")
+            h1.t1 primary
+            h1.t2 record
+            h1.t3 shop
+        .slider
+            img.slide(src="https://img.discogs.com/aZ4dty72zltkB56iO16aUm9SRJQ=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-4860420-1377734883-7157.jpeg.jpg" alt="Grum album cover")
+            img.slide(src="https://media.pitchfork.com/photos/5929a847ea9e61561daa57a4/1:1/w_600/cd871955.jpg" alt="The Knife album cover")
+            img.slide(src="https://i.ebayimg.com/images/g/k-MAAOSwVDJeQmf5/s-l640.jpg" alt="Arlo Guthrie album cover")
+            img.slide(src="https://m.media-amazon.com/images/I/81kCo7pPrCL._SS500_.jpg" alt="Peter Frampton album cover")
+            img.slide(src="https://upload.wikimedia.org/wikipedia/en/e/e3/Bjorkvolta.png" alt="Bjork album cover")
+            img.slide(src="https://upload.wikimedia.org/wikipedia/en/9/92/The_B-52%27s_cover.jpg" alt="B52s album cover")
+        a(class = isLoggedIn ? 'displaynone' : 'homesubtitle') log in to get shopping!
+           
+        

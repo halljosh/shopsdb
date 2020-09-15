@@ -4,11 +4,11 @@ block content
     main
         form(action="/signup", method="POST")
             label(for="username") username
-            input(type="text", name="username")#username
+            input(type="text", name="username" value=oldInput.username)#username
             label(for="password") password
-            input(type="password", name="password")#password
+            input(type="password", name="password" value=oldInput.password)#password
             label(for="password") confirm password
-            input(type="password", name="confirmedpassword")#password
+            input(type="password", name="confirmedpassword" value=oldInput.confirmedPass)#password
             input(type = "hidden" name = "_csrf" value = csrfToken)
-            button(type="submit") signup
-            p #{errorMessage}
+            button.submit(type="submit") signup
+            p.error #{errorMessage}

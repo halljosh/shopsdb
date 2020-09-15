@@ -26,3 +26,4 @@ node_modules/
 /shopdb/node_modules
 ./shopdb/node_modules
 /defunct
+*albumlogo.png

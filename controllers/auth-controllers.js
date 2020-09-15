@@ -1,7 +1,7 @@
 const User = require('../models/user-model');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/');
 
 exports.getLogin = (req, res, next) => { 
     let errorMessage = req.flash('loginerror');
@@ -59,19 +59,20 @@ exports.getSignup = (req, res, next) => {
     } else {
         errorMessage = null;
     }
-    res.render('auth-views/signup', {docTitle: 'signup', path: '/signup', isLoggedIn: false, errorMessage: errorMessage });
+    res.render('auth-views/signup', {docTitle: 'signup', path: '/signup', isLoggedIn: false, errorMessage: errorMessage, oldInput: {email: '', password: '', confirmedPass: ''}, valErrors: [] });
 };
 
 exports.postSignup = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    const confirmedPassword = req.body.confirmedPassword;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).render('auth-views/signup', {
             path: '/signup',
             docTitle: 'signup',
-            errorMessage: errors.array()[3].msg
+            errorMessage: errors.array()[0].msg,
+            oldInput: { username: username, password: password, confirmedPass: req.body.confirmedpassword},
+            valErrors: errors.array()
         });
     }
     User
