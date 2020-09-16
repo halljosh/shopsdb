@@ -1,9 +1,45 @@
-extends ../layouts/main-layout.pug
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title #{docTitle} 
+        link(rel = "stylesheet", href="")
+        link(rel="icon" href="https://lh3.googleusercontent.com/proxy/XZ2pWuFjP-kJeX9wm5Igyri7UqSeIkRbBhliLWlXYk2Oaqu39F_J-GOxCPNIra1gjREX-_1Vwv8FwR-YYNi1y48qy7NpvTgjOCEpUU4sTX2IanUbW-Bcpdupsx09e_CMNZ_7-PDE-2fTBvEt-31x6s7JpJ4KXvSIew" type="image/x-icon")
+        link(href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Monda&display=swap" rel="stylesheet")
+        style
+            include ../../public/shopstyle.css
+    body
+        header
+            nav
+                ul 
+                    li.a
+                        a(href="/", class=(path==='/' ? 'active' : '')) home
+                    li.a
+                        a(href="/shop", class =(path==='/shop' ? 'active' : '')) shop
 
-block content
+                    if isLoggedIn
+                        li.a
+                            a(href="/cart", class =(path==='/cart' ? 'active' : '')) cart
+
+                        li.a
+                            a(href="/admin/add-product", class=(path==='/admin/add-products' ? 'active' : '')) add 
+                        li.a
+                            a(href="/admin/admin-product-view", class=(path==='/admin/admin-product-view' ? 'active' : '')) manage
+                        li.b
+                            form(action = "/logout" method="POST")
+                                button(type = "submit") logout
+                                input(type = "hidden" name = "_csrf" value = csrfToken)
+                    else
+                        li.b
+                            form(action = "/login" method="GET")
+                                button(href="/login" type="submit") login
+                        li.b
+                            form(action = "/signup" method="GET")
+                                button(href="/signup" type="submit") signup
     main
-        h1 edit product info:
-        form(action="/admin/edit-product" method="POST")
+        h1.editinfo edit product info:
+        form.editmode(action="/admin/edit-product" method="POST")
             label(for="title") album title
             input(type="text" name="title" value=foundProduct.title)
             label(for="artist") artist
@@ -16,4 +52,4 @@ block content
             input(type="number" name="price" step="0.01" value=foundProduct.price)
             input(type="hidden" name="id" value=foundProduct._id)
             input(type = "hidden" name = "_csrf" value = csrfToken)
-            button(type="submit") save changes
+            button.submit(type="submit") save changes

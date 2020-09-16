@@ -2,22 +2,28 @@ extends ../layouts/main-layout.pug
 
 block content
     main
-        h1 this is the cart
         if products.length > 0
-            .cart-list
-                ul
-                    each product in products
-                        - var itemprice = product.productId.price * product.quantity;
-                        .cart-item
-                            h4 #{product.productId.title} x#{product.quantity}
-                            img(src = product.imageURL alt = product.productId.title)
-                            p price: #{itemprice}
-                            form(action="/cart-delete-item" method="POST")
-                                input(type="hidden" value=product.productId._id name="id")
-                                input(type = "hidden" name = "_csrf" value = csrfToken)
-                                button(type="submit") delete item 
+            .cartlist
+                h1 your cart:
+                each product in products
+                    .cartchunk
+                        - var itemPrice = product.productId.price * product.quantity;
+                        h3 #{product.productId.title} x#{product.quantity}
+                        img.cartimage(src = product.productId.imageURL alt = product.productId.title)
+                        p price: #{itemPrice}
+                        form(action="/cart-delete-item" method="POST")
+                            input(type="hidden" value=product.productId._id name="id")
+                            input(type = "hidden" name = "_csrf" value = csrfToken)
+                            button(type="submit") delete item 
+                .cartbottom
+                - var salesTax = (total * .06).toFixed(2);
+                - var trueTotal = (total * 1.06).toFixed(2);
+                h3 subtotal: $#{total}
+                h4 sales tax: $#{salesTax}
+                h2 TOTAL: $#{trueTotal}
                 form(action="/checkout" method="POST")
                     input(type = "hidden" name = "_csrf" value = csrfToken)
-                    button(type="submit") checkout
+                    button.submit(type="submit") checkout
         else
             h1 your cart is empty!
+            a(href='/shop') add some products?

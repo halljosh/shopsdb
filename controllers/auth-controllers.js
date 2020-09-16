@@ -10,7 +10,7 @@ exports.getLogin = (req, res, next) => {
     } else {
         errorMessage = null;
     }
-    res.render('auth-views/login', {docTitle: 'login', path: '/login', isLoggedIn: false, errorMessage: errorMessage });
+    res.render('auth-views/login', {docTitle: 'log in', path: '/login', isLoggedIn: false, errorMessage: errorMessage });
 };
 
 exports.postLogin = (req, res, next) => {
@@ -59,7 +59,7 @@ exports.getSignup = (req, res, next) => {
     } else {
         errorMessage = null;
     }
-    res.render('auth-views/signup', {docTitle: 'signup', path: '/signup', isLoggedIn: false, errorMessage: errorMessage, oldInput: {email: '', password: '', confirmedPass: ''}, valErrors: [] });
+    res.render('auth-views/signup', {docTitle: 'sign up', path: '/signup', isLoggedIn: false, errorMessage: errorMessage, oldInput: {email: '', password: '', confirmedPass: ''}, valErrors: [] });
 };
 
 exports.postSignup = (req, res, next) => {
@@ -69,7 +69,7 @@ exports.postSignup = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(422).render('auth-views/signup', {
             path: '/signup',
-            docTitle: 'signup',
+            docTitle: 'sign up',
             errorMessage: errors.array()[0].msg,
             oldInput: { username: username, password: password, confirmedPass: req.body.confirmedpassword},
             valErrors: errors.array()

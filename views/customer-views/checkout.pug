@@ -3,14 +3,17 @@ extends ../layouts/main-layout.pug
 block content
     main
         if orders.length > 0
-            h1 here are your orders
-                ul
-                    each order in orders
-                        .cart-item #{order._id}
-                              ul
-                                each product in order.products
-                                    h4 #{product.product.title} x #{product.quantity}
-                                    img(src = product.product.imageURL alt = product.product.title)
+            .orderlist 
+                h1 your orders:
+                each order in orders
+                    - var smallOrderNumber = (order._id).toString().slice(0, 7);
+                    h2.cart-item order ##{smallOrderNumber}
+                        each product in order.products
+                            .orderchunk
+                                p #{product.product.title} x#{product.quantity}
+                                img.cartimage(src = product.product.imageURL alt = product.product.title)
+                    h2 arriving soon! 
+                .cartbottom
         else    
             h1 sorry, but you don't have any orders! 
                 a(href="/") add some items?

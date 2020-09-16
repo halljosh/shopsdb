@@ -21,18 +21,18 @@ html(lang="en")
                             a(href="/cart", class =(path==='/cart' ? 'active' : '')) cart
 
                         li.a
-                            a(href="/admin/add-product", class=(path==='/admin/add-products' ? 'active' : '')) add product
+                            a(href="/admin/add-product", class=(path==='/admin/add-products' ? 'active' : '')) add
                         li.a
-                            a(href="/admin/admin-product-view", class=(path==='/admin/admin-product-view' ? 'active' : '')) product management
+                            a(href="/admin/admin-product-view", class=(path==='/admin/admin-product-view' ? 'active' : '')) manage
                         li.b
-                            form(action = "/logout" method="POST")
+                            form.c(action = "/logout" method="POST")
                                 button(type = "submit") logout
                                 input(type = "hidden" name = "_csrf" value = csrfToken)
                     else
                         li.b
-                            form(action = "/login" method="GET")
+                            form.c(action = "/login" method="GET")
                                 button(href="/login" type="submit") login
                         li.b
-                            form(action = "/signup" method="GET")
+                            form.c(action = "/signup" method="GET")
                                 button(href="/signup" type="submit") signup
         block content

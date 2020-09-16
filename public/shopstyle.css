@@ -44,6 +44,7 @@ nav ul {
     border: 1px outset white;
     font-size: 13.333px;
     margin-left: 20px;
+    color: black;
 }
 
 .b {
@@ -177,18 +178,165 @@ label {
     padding: 0px 5px 0px 0px;
 }
 
+.productcard {
+    margin-bottom: 25px;
+}
+
+.productimage {
+    min-width: 300px;
+    max-width: 300px;
+    -webkit-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+    -moz-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+    box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+    margin-top: 7px;
+}
+
+.cardcontent {
+    display: flex;
+}
+
+.description {
+    padding: 0 20px 0 25px;
+    margin-top: -15px;
+}
+
+.dsubheader {
+    border-bottom: 2px solid #465be0;
+    margin-right: 20px;
+}
+
+.cardaction form, 
+.editaction {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.cardaction h3, 
+.cardaction button  {
+    display: inline-block;
+    margin-right: 150px;
+}
+
+.editaction h3, 
+.editaction a, 
+.editaction form {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.editaction a {
+    text-align: center;
+    padding: 1px 6px;
+    background: #e0db46;
+    border: 1px outset white;
+    font-size: 13.333px;
+    color: black;
+}
+
+.editinfo {
+    margin: -10px 0 0 0;
+}
+
+.editmode textarea {
+    min-width: 90vw;
+    max-height: 10vh;
+}
+
+.cartbottom {
+    margin-top: 20px;
+    border-bottom: 3px solid #465be0;
+}
+
+.cartlist h1, 
+.orderlist h1 {
+    margin-top: -10px;
+}
+
+.cartchunk {
+    margin-bottom: 25px;
+}
+
+.cartimage {
+    min-width: 100px;
+    max-width: 200px;
+    -webkit-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+    -moz-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+    box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.55);
+}
+
+.orderchunk {
+    margin-left: 50px;
+}
+
 @media only screen and (max-width: 675px) {
     .hometitle {
         margin-top: 40px;
     }
     
-    .hometitle h1 {
-        font-size: 48px;
+    .hometitle > h1 {
+        font-size: 45px;
+    }
+
+    .hometitle {
         overflow-x: hidden;
     }
 
     nav {
         max-width: 100vw;
+        padding: 0;
+        justify-content: space-evenly;
+    }
+
+    nav ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        max-height: 40px;
+        max-width: 95vw;
+        margin-left: 3px;
+    }
+
+    .a, .b {
+        padding: 0 0 0 0;
+        margin: -5px 0 0 0;
+    }
+
+    .b > form > button {
+        display: block;
+        min-width: 118px;
+    }
+
+    .productimage {
+        max-height: 125px;
+        min-width: 125px;
+    }
+
+    .productcard > h2 {
+        font-size: 20px;
+    }
+
+    .description h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .description > p {
+        font-size: 14px;
+        line-height: 97%;
+        margin-top: 0px;
+    }
+
+    .description {
+        padding-right: 0px;
+        margin-top: -18px;
+    }
+
+    .cardaction h3 {
+        margin-right: 10px;
+        font-size: 16px;
     }
 }
 

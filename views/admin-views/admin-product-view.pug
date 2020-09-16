@@ -6,18 +6,18 @@ block content
             include ../../public/shopstyle.css
     main
         if products.length > 0
-            .product-grid
+            .productlist
                 each product in products
-                    .product-card
-                        .card-header
-                            h1.product-title #{product.title} by #{product.artist}
-                        .card-content
-                            img.product-image(src = product.imageURL alt = product.title)
-                            h3.product-price $#{product.price}
-                            p.product-description #{product.description}
-                        .card-action
-                            a(href="/admin/edit-product/" + product._id)
-                                button edit
+                    .productcard
+                        h2 #{product.title} by #{product.artist}
+                        .cardcontent
+                            img.productimage(src = product.imageURL alt = product.title)
+                            .description
+                                h3.dsubheader description: 
+                                p #{product.description}
+                        .editaction
+                            h3 $#{product.price}
+                            a(href="/admin/edit-product/" + product._id) edit      
                             form(action="/admin/delete-product", method="POST") 
                                 input(type="hidden" value=product._id name="id")
                                 input(type = "hidden" name = "_csrf" value = csrfToken)

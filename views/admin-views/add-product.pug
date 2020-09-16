@@ -5,7 +5,7 @@ block content
         style
             include ../../public/shopstyle.css
     main
-        form(action="/admin/add-product", method="POST")
+        form.editmode(action="/admin/add-product", method="POST")
             label(for="title") album title
             input(type="text", name="title")#title
             label(for="artist") artist

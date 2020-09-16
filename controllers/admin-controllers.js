@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 exports.getAddProductPage = (req, res, next) => { //GETs the add product page
-    res.render('admin-views/add-product', {products: Product, docTitle: 'Add Product', path:'/admin/add-product', isLoggedIn: req.session.isLoggedIn}); //here's where we're using our product model
+    res.render('admin-views/add-product', {products: Product, docTitle: 'add product', path:'/admin/add-product', isLoggedIn: req.session.isLoggedIn}); 
 };
 
 exports.postProduct = (req, res, next) => { //POSTs the product to our product array with key of title
@@ -33,7 +33,7 @@ exports.postProduct = (req, res, next) => { //POSTs the product to our product a
 
 exports.getAdminProductList = (req, res, next) => { //GETs an admin page with all our products
    Product
-        .find({id: req.user._id})
+        .find()
         .then(products => {
             res.render('admin-views/admin-product-view', {products: products, docTitle: 'product management', path: '/admin/admin-product-view', isLoggedIn: req.session.isLoggedIn}); //looks for .pug files & passes our products array
         })
@@ -63,17 +63,15 @@ exports.postEditedProduct = (req, res, next) => {
     const updatedDescription = req.body.description;
     const updatedPrice = req.body.price;
 
-    Product.findById(id)
+    Product
+        .findById(id)
         .then(product => {
-            if (product.userId.toString() !== req.user._id.toString()) {
-                return res.redirect('/');
-            }
-        product.title = updatedTitle;
-        product.artist = updatedArtist;
-        product.imageURL = updatedURL;
-        product.description = updatedDescription;
-        product.price = updatedPrice;
-        return product
+            product.title = updatedTitle;
+            product.artist = updatedArtist;
+            product.imageURL = updatedURL;
+            product.description = updatedDescription;
+            product.price = updatedPrice;
+            return product
             .save()
             .then(result => {
                 console.log("succesfully updated product!");
@@ -89,7 +87,7 @@ exports.deleteProduct = (req, res, next) => {
     const prodId = req.body.id;
     const userId = req.user._id;
     console.log(userId);
-    Product.deleteOne({_id: prodId, userId: userId})
+    Product.deleteOne({_id: prodId})
         .then(() => {
             console.log('product succesfully deleted!');
             res.redirect('/admin/admin-product-view');

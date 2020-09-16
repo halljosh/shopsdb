@@ -4,10 +4,10 @@ const Order = require('../models/order-model');
 exports.getProducts = (req, res, next) => { //GETs a page with all our products
     Product.find()
    .then(products => {
-    res.render('customer-views/product-list', {products: products, docTitle: 'Shop', path: '/shop', isLoggedIn: req.session.isLoggedIn}); //looks for .pug files & passes our products array
+    res.render('customer-views/product-list', {products: products, docTitle: 'shop', path: '/shop', isLoggedIn: req.session.isLoggedIn}); //looks for .pug files & passes our products array
    })
    .catch(err => {
-       console.log(err);
+       console.log(err); 
    });
 }
 
@@ -25,19 +25,33 @@ exports.getCart = (req, res, next) => { //GETs cart page
         .execPopulate() //returns a promise
         .then(user => {
                 const products = user.cart.items;
-                res.render('customer-views/cart', {docTitle: 'cart', path: '/cart', products: products, isLoggedIn: req.session.isLoggedIn});
+                let totalPrice = 0; 
+                const getTotal = () => {
+                    for (let i = 0; i < products.length; i++) {
+                        totalPrice = totalPrice + (products[i].productId.price * products[i].quantity); 
+                    }   return totalPrice;
+                }   
+                res.render('customer-views/cart', {docTitle: 'cart', path: '/cart', products: products, isLoggedIn: req.session.isLoggedIn, total: getTotal()});
             })
         .catch(err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => { //POSTs selected product to cart
     const id = req.body.id; 
-    Product.findById(id)
+    Product
+        .findById(id)
         .then(product => {
-            return req.user.addToCart(product);
+            if (!req.user) {
+                return res.redirect('/login');
+            }
+            else {
+                return req.user.addToCart(product);
+            }
         })
         .then(result => {
-            res.redirect('/cart');
+            if(result) {
+                res.redirect('/cart');
+            }
         })
         .catch(err => {
             console.log(err);

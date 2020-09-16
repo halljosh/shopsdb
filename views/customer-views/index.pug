@@ -13,6 +13,7 @@ block content
             img.slide(src="https://m.media-amazon.com/images/I/81kCo7pPrCL._SS500_.jpg" alt="Peter Frampton album cover")
             img.slide(src="https://upload.wikimedia.org/wikipedia/en/e/e3/Bjorkvolta.png" alt="Bjork album cover")
             img.slide(src="https://upload.wikimedia.org/wikipedia/en/9/92/The_B-52%27s_cover.jpg" alt="B52s album cover")
-        a(class = isLoggedIn ? 'displaynone' : 'homesubtitle') log in to get shopping!
+        a(href = '/login' class = isLoggedIn ? 'displaynone' : 'homesubtitle') log in to get shopping!
+        a(href = '/shop' class = isLoggedIn ? 'homesubtitle' : 'displaynone') get shopping! 
            
         

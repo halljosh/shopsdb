@@ -3,17 +3,18 @@ extends ../layouts/main-layout.pug
 block content
     main
         if products.length > 0
-            .product-grid
+            .productlist
                 each product in products
-                    .product-card
-                        .card-header
-                            h1.product-title #{product.title} by #{product.artist}
-                        .card-content
-                            img.product-image(src = product.imageURL alt = product.title)
-                            h3.product-price $#{product.price}
-                            p.product-description #{product.description}
-                        .card-action
+                    .productcard
+                        h2 #{product.title} by #{product.artist}
+                        .cardcontent
+                            img.productimage(src = product.imageURL alt = product.title)
+                            .description
+                                h3.dsubheader description: 
+                                p #{product.description}
+                        .cardaction
                             form(action="/cart" method="POST")
+                                h3 $#{product.price}
                                 button(type="submit") add to cart
                                 input(type="hidden" name="id" value = product._id)
                                 input(type = "hidden" name = "_csrf" value = csrfToken)
