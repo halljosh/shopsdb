@@ -4,7 +4,7 @@ block content
     main
         if products.length > 0
             .cartlist
-                h1 your cart:
+                h1.header your cart:
                 each product in products
                     .cartchunk
                         - var itemPrice = product.productId.price * product.quantity;

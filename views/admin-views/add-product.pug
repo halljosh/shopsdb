@@ -5,6 +5,7 @@ block content
         style
             include ../../public/shopstyle.css
     main
+        h1.header add an album to the shop: 
         form.editmode(action="/admin/add-product", method="POST")
             label(for="title") album title
             input(type="text", name="title")#title

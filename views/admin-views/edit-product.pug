@@ -38,7 +38,7 @@ html(lang="en")
                             form(action = "/signup" method="GET")
                                 button(href="/signup" type="submit") signup
     main
-        h1.editinfo edit product info:
+        h1.header edit product info:
         form.editmode(action="/admin/edit-product" method="POST")
             label(for="title") album title
             input(type="text" name="title" value=foundProduct.title)
