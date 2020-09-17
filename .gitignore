@@ -27,3 +27,5 @@ node_modules/
 ./shopdb/node_modules
 /defunct
 *albumlogo.png
+*server.cert
+*server.key

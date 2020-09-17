@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const https = require('https');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
@@ -66,7 +67,7 @@ mongoose
         useNewUrlParser: true
     })
     .then(result => {
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
         console.log('successfully connected to mongodb!')
     })
     .catch(err => {
